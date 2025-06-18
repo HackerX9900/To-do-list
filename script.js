@@ -52,3 +52,25 @@ function setReminder(task) {
     alert(`⏰ Reminder: ${task.text}`);
   }, timeToWait);
 }
+
+document.getElementById("darkModeToggle").addEventListener("click", function () {
+  document.body.classList.toggle("dark-mode");
+
+  // Save theme to localStorage
+  const mode = document.body.classList.contains("dark-mode") ? "dark" : "light";
+  localStorage.setItem("theme", mode);
+});
+
+// Load saved theme on page load
+window.onload = function () {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark-mode");
+  }
+
+  const savedTasks = localStorage.getItem("tasks");
+  if (savedTasks) {
+    tasks = JSON.parse(savedTasks);
+    tasks.forEach(task => addTaskToUI(task.text, task.time));
+  }
+};
