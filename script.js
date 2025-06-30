@@ -3,7 +3,12 @@ const taskInput = document.getElementById("task-input");
 const reminderInput = document.getElementById("reminder-input");
 const taskList = document.getElementById("task-list");
 
-const tasks = [];
+let tasks = [];
+
+// Helper function to save tasks to localStorage
+function saveTasks() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -19,6 +24,7 @@ form.addEventListener("submit", (e) => {
   };
 
   tasks.push(task);
+  saveTasks();
   renderTasks();
   setReminder(task);
   form.reset();
@@ -39,6 +45,7 @@ function renderTasks() {
 function deleteTask(id) {
   const index = tasks.findIndex(t => t.id === id);
   if (index > -1) tasks.splice(index, 1);
+  saveTasks();
   renderTasks();
 }
 
@@ -53,12 +60,18 @@ function setReminder(task) {
   }, timeToWait);
 }
 
-document.getElementById("darkModeToggle").addEventListener("click", function () {
+// --- Dark Mode Logic ---
+const themeToggle = document.getElementById("checkbox");
+
+themeToggle.addEventListener("change", function () {
   document.body.classList.toggle("dark-mode");
 
   // Save theme to localStorage
-  const mode = document.body.classList.contains("dark-mode") ? "dark" : "light";
-  localStorage.setItem("theme", mode);
+  if (document.body.classList.contains("dark-mode")) {
+    localStorage.setItem("theme", "dark");
+  } else {
+    localStorage.setItem("theme", "light");
+  }
 });
 
 // Load saved theme on page load
@@ -66,11 +79,20 @@ window.onload = function () {
   const savedTheme = localStorage.getItem("theme");
   if (savedTheme === "dark") {
     document.body.classList.add("dark-mode");
+    themeToggle.checked = true;
   }
 
   const savedTasks = localStorage.getItem("tasks");
   if (savedTasks) {
     tasks = JSON.parse(savedTasks);
-    tasks.forEach(task => addTaskToUI(task.text, task.time));
+    renderTasks();
   }
+
+  // Initialize flatpickr for a modern date/time picker
+  flatpickr(reminderInput, {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i", // Machine-readable format for JS
+    altInput: true, // Creates a new, more human-readable input
+    altFormat: "F j, Y at h:i K", // e.g., "June 10, 2024 at 05:30 PM"
+  });
 };

@@ -2,6 +2,7 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f0f2f5;
   padding: 2rem;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .container {
@@ -42,9 +43,19 @@ li {
   display: flex;
   justify-content: space-between;
 }
+
+/* --- Dark Mode --- */
 body.dark-mode {
   background-color: #121212;
   color: #f5f5f5;
+}
+
+body.dark-mode .container {
+  background: #1e1e1e;
+}
+
+body.dark-mode li {
+  background: #333;
 }
 
 body.dark-mode input,
@@ -53,18 +64,74 @@ body.dark-mode button {
   color: #f5f5f5;
   border: 1px solid #333;
 }
-
-#darkModeToggle {
-  margin-bottom: 10px;
-  padding: 8px 16px;
-  border: none;
+/* --- Toggle Switch Styles --- */
+.theme-switch-wrapper {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+.theme-switch {
+  display: inline-block;
+  height: 26px;
+  position: relative;
+  width: 50px;
+}
+.theme-switch input { display: none; }
+.slider {
+  background-color: #ccc;
+  bottom: 0;
   cursor: pointer;
-  background-color: #444;
-  color: white;
-  border-radius: 5px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+}
+.slider:before {
+  background-color: #fff;
+  bottom: 4px;
+  content: "☀️";
+  height: 18px;
+  left: 4px;
+  position: absolute;
+  transition: .4s;
+  width: 18px;
+  text-align: center;
+  font-size: 12px;
+}
+input:checked + .slider { background-color: #6633cc; }
+input:checked + .slider:before {
+  transform: translateX(24px);
+  content: "🌙";
+}
+.slider.round { border-radius: 34px; }
+.slider.round:before { border-radius: 50%; }
+
+/* --- Flatpickr Dark Mode Theme --- */
+body.dark-mode .flatpickr-calendar {
+  background: #2d2d2d;
+  border-color: #444;
+  color: #f5f5f5;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-body.dark-mode #darkModeToggle {
-  background-color: #f5f5f5;
-  color: #121212;
+body.dark-mode .flatpickr-day:not(.selected):not(.today):hover,
+body.dark-mode .flatpickr-day:focus {
+  background: #444;
+  border-color: #444;
+}
+
+body.dark-mode .flatpickr-day.selected {
+  background: #6633cc;
+  border-color: #6633cc;
+}
+
+body.dark-mode .flatpickr-time input.flatpickr-hour,
+body.dark-mode .flatpickr-time input.flatpickr-minute,
+body.dark-mode .numInputWrapper span {
+  background: #1e1e1e;
+  color: #f5f5f5;
+  border: 1px solid #444;
 }

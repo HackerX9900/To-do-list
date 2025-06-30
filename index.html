@@ -2,21 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <button id="darkModeToggle">🌙 Toggle Dark Mode</button>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>To-Do List with Reminder</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Dark Mode Toggle Switch -->
+  <div class="theme-switch-wrapper">
+    <label class="theme-switch" for="checkbox">
+      <input type="checkbox" id="checkbox" />
+      <div class="slider round"></div>
+    </label>
+  </div>
+
   <div class="container">
     <h1>📝 To-Do List</h1>
     <form id="task-form">
       <input type="text" id="task-input" placeholder="Enter task" required />
-      <input type="datetime-local" id="reminder-input" />
+      <input type="text" id="reminder-input" placeholder="Select reminder date & time" />
       <button type="submit">Add Task</button>
     </form>
     <ul id="task-list"></ul>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="script.js"></script>
 </body>
 </html>
